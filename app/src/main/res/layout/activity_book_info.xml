@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".BookInfoActivity">
+
+    <include layout="@layout/common_toolbar"
+        android:id="@+id/toolbar"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_below="@id/toolbar"
+        android:layout_above="@id/ll_click"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="@dimen/margin150"
+                android:layout_height="@dimen/margin200"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/margin20"
+                android:elevation="@dimen/margin5"
+                app:cardCornerRadius="@dimen/margin15">
+
+                <ImageView
+                    android:id="@+id/iv_product_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin15"
+                app:cardBackgroundColor="@color/grey50"
+                app:cardCornerRadius="@dimen/margin10">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_product_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin5"
+                        android:text="Gemini Sun flower oil, 500 gram"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/textsize18"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_product_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin10"
+                        android:layout_marginBottom="@dimen/margin5"
+                        android:text="700 /-"
+                        android:textColor="@color/red700"
+                        android:textSize="@dimen/textsize18"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin5"
+                app:cardBackgroundColor="@color/grey50"
+                app:cardCornerRadius="@dimen/margin10">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin5"
+                        android:layout_marginTop="@dimen/margin5"
+                        android:text="@string/description"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/textsize20" />
+
+                    <TextView
+                        android:id="@+id/tv_product_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin10"
+                        android:layout_marginTop="@dimen/margin5"
+                        android:layout_marginRight="@dimen/margin10"
+                        android:layout_marginBottom="@dimen/margin5"
+                        android:text="Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book
+Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book"
+                        android:textColor="@color/grey500"
+                        android:textSize="@dimen/textsize14" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/ll_click"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_margin="@dimen/margin5">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:backgroundTint="@color/grey50"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_add_to_cart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/add_to_cart"
+                style="?android:attr/borderlessButtonStyle"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimaryDark"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_buy_now"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/buy_now"
+                style="?android:attr/borderlessButtonStyle"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

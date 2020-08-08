@@ -1,34 +1,32 @@
 package com.example.bookselling;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
-
 import com.example.bookselling.adapter.BookScreenAdapter;
 import com.example.bookselling.model.product.ProductResponse;
 import com.example.bookselling.services.ApiRequestHelper;
 import com.example.bookselling.services.BookSelling;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     @BindView(R.id.rv_book)
     RecyclerView rvBook;
-    BookSelling bookSelling;
+    @BindView(R.id.btn_video_gallery)
+    AppCompatButton btnVideoGallery;
+    @BindView(R.id.btn_success_story)
+    AppCompatButton btnSuccessStory;
+
+    private BookSelling bookSelling;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,15 +38,31 @@ public class MainActivity extends AppCompatActivity {
         //basic intialisation...
         initViews();
 
-        //load book data....
+        //load book data and append to recycler view....
         loadData();
     }
 
     private void initViews(){
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(MainActivity.this);
         rvBook.setLayoutManager(linearLayoutManager);
+
+        //click listeners
+        btnVideoGallery.setOnClickListener(this);
+        btnSuccessStory.setOnClickListener(this);
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_video_gallery:
+                startActivity(new Intent(MainActivity.this,VideoGalleryActivity.class));
+                break;
+
+            case R.id.btn_success_story:
+                startActivity(new Intent(MainActivity.this,SuccessStoryActivity.class).putExtra("type","success_story"));
+                break;
+        }
+    }
     private void loadData(){
         final ProgressDialog progress = new ProgressDialog(this);
         progress.setMessage("Please wait....");
@@ -82,4 +96,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 }

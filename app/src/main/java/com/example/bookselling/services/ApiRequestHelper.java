@@ -3,6 +3,8 @@ package com.example.bookselling.services;
 import android.text.Html;
 
 import com.example.bookselling.model.product.ProductResponse;
+import com.example.bookselling.model.story.SuccessStoryResponse;
+import com.example.bookselling.model.videogallery.VideoGalleryResponse;
 import com.example.bookselling.utils.AllKeys;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -66,6 +68,16 @@ public class ApiRequestHelper {
         product_api(onRequestComplete, call);
     }
 
+    public void getsuccessstory(final OnRequestComplete onRequestComplete) {
+        Call<SuccessStoryResponse> call = banyanBazarServices.getSuccessStory();
+        success_api(onRequestComplete, call);
+    }
+
+    public void getvideogallery(final OnRequestComplete onRequestComplete) {
+        Call<VideoGalleryResponse> call = banyanBazarServices.getVideoGallery();
+        video_gallery_api(onRequestComplete, call);
+    }
+
     private void product_api(final OnRequestComplete onRequestComplete, Call<ProductResponse> call) {
         call.enqueue(new Callback<ProductResponse>() {
             @Override
@@ -84,6 +96,52 @@ public class ApiRequestHelper {
 
             @Override
             public void onFailure(Call<ProductResponse> call, Throwable t) {
+                handle_fail_response(t, onRequestComplete);
+            }
+        });
+    }
+
+    private void success_api(final OnRequestComplete onRequestComplete, Call<SuccessStoryResponse> call) {
+        call.enqueue(new Callback<SuccessStoryResponse>() {
+            @Override
+            public void onResponse(Call<SuccessStoryResponse> call, Response<SuccessStoryResponse> response) {
+                if (response.isSuccessful()) {
+                    onRequestComplete.onSuccess(response.body());
+                } else {
+                    try {
+                        onRequestComplete.onFailure(Html.fromHtml(response.errorBody().string()) + "");
+                    } catch (IOException e) {
+                        onRequestComplete.onFailure("Unproper Response");
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SuccessStoryResponse> call, Throwable t) {
+                handle_fail_response(t, onRequestComplete);
+            }
+        });
+    }
+
+    private void video_gallery_api(final OnRequestComplete onRequestComplete, Call<VideoGalleryResponse> call) {
+        call.enqueue(new Callback<VideoGalleryResponse>() {
+            @Override
+            public void onResponse(Call<VideoGalleryResponse> call, Response<VideoGalleryResponse> response) {
+                if (response.isSuccessful()) {
+                    onRequestComplete.onSuccess(response.body());
+                } else {
+                    try {
+                        onRequestComplete.onFailure(Html.fromHtml(response.errorBody().string()) + "");
+                    } catch (IOException e) {
+                        onRequestComplete.onFailure("Unproper Response");
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<VideoGalleryResponse> call, Throwable t) {
                 handle_fail_response(t, onRequestComplete);
             }
         });

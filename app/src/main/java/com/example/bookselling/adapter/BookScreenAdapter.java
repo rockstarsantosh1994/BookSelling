@@ -1,6 +1,7 @@
 package com.example.bookselling.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.bookselling.BookInfoActivity;
 import com.example.bookselling.R;
 import com.example.bookselling.model.product.ProductBO;
 
@@ -51,6 +53,14 @@ public class BookScreenAdapter extends RecyclerView.Adapter<BookScreenAdapter.Bo
         holder.tvProductTitle.setText(productBOArrayList.get(position).getTitle());
         holder.tvProductPrice.setText("₹" +productBOArrayList.get(position).getPrice() + " /-");
         holder.tvProductDescription.setText(productBOArrayList.get(position).getDetails());
+
+        holder.llProductClick.setOnClickListener(v -> {
+            Intent intent=new Intent(context, BookInfoActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.putExtra("productbo",productBOArrayList.get(position));
+            context.startActivity(intent);
+        });
+
     }
 
     @Override

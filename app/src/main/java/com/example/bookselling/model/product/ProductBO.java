@@ -1,6 +1,9 @@
 package com.example.bookselling.model.product;
 
-public class ProductBO {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class ProductBO implements Parcelable {
     private int id;
     private String title;
     private String details;
@@ -8,6 +11,28 @@ public class ProductBO {
     private String coverPhoto;
     private String creationDateTime;
     private int isActive;
+
+    protected ProductBO(Parcel in) {
+        id = in.readInt();
+        title = in.readString();
+        details = in.readString();
+        price = in.readInt();
+        coverPhoto = in.readString();
+        creationDateTime = in.readString();
+        isActive = in.readInt();
+    }
+
+    public static final Creator<ProductBO> CREATOR = new Creator<ProductBO>() {
+        @Override
+        public ProductBO createFromParcel(Parcel in) {
+            return new ProductBO(in);
+        }
+
+        @Override
+        public ProductBO[] newArray(int size) {
+            return new ProductBO[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -63,5 +88,21 @@ public class ProductBO {
 
     public void setIsActive(int isActive) {
         this.isActive = isActive;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(title);
+        dest.writeString(details);
+        dest.writeInt(price);
+        dest.writeString(coverPhoto);
+        dest.writeString(creationDateTime);
+        dest.writeInt(isActive);
     }
 }

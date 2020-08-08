@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">BookSelling</string>
+    <string name="description">Description</string>
+    <string name="add_to_cart">Add To Cart</string>
+    <string name="buy_now">Buy Now</string>
+    <string name="video_gallery">Video Gallery</string>
+    <string name="success_story">Success Story</string>
+    <string name="play_video">Play Video</string>
+    <string name="view_video">View Video</string>
 </resources>
