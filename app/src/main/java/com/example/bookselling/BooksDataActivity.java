@@ -1,13 +1,10 @@
 package com.example.bookselling;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
 import com.example.bookselling.adapter.BookScreenAdapter;
 import com.example.bookselling.model.product.ProductResponse;
@@ -16,22 +13,16 @@ import com.example.bookselling.services.BookSelling;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class BooksDataActivity extends AppCompatActivity {
 
     @BindView(R.id.rv_book)
     RecyclerView rvBook;
-    @BindView(R.id.btn_video_gallery)
-    AppCompatButton btnVideoGallery;
-    @BindView(R.id.btn_success_story)
-    AppCompatButton btnSuccessStory;
-
     private BookSelling bookSelling;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_books_data);
         ButterKnife.bind(this);
         bookSelling=(BookSelling) getApplication();
 
@@ -43,26 +34,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initViews(){
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(MainActivity.this);
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(BooksDataActivity.this);
         rvBook.setLayoutManager(linearLayoutManager);
-
-        //click listeners
-        btnVideoGallery.setOnClickListener(this);
-        btnSuccessStory.setOnClickListener(this);
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.btn_video_gallery:
-                startActivity(new Intent(MainActivity.this,VideoGalleryActivity.class));
-                break;
-
-            case R.id.btn_success_story:
-                startActivity(new Intent(MainActivity.this,SuccessStoryActivity.class).putExtra("type","success_story"));
-                break;
-        }
-    }
     private void loadData(){
         final ProgressDialog progress = new ProgressDialog(this);
         progress.setMessage("Please wait....");
@@ -79,22 +54,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 progress.dismiss();
                 if (productResponse.getResponsecode() == 200) {
                     if(productResponse.getData().size()>0){
-                        BookScreenAdapter bookScreenAdapter=new BookScreenAdapter(MainActivity.this,productResponse.getData());
+                        BookScreenAdapter bookScreenAdapter=new BookScreenAdapter(BooksDataActivity.this,productResponse.getData());
                         rvBook.setAdapter(bookScreenAdapter);
                     }
-                    Toast.makeText(MainActivity.this,productResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BooksDataActivity.this,productResponse.getMessage(), Toast.LENGTH_SHORT).show();
 
                 } else {
-                    Toast.makeText(MainActivity.this,productResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BooksDataActivity.this,productResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(String apiResponse) {
                 progress.dismiss();
-                Toast.makeText(MainActivity.this, apiResponse, Toast.LENGTH_SHORT).show();
+                Toast.makeText(BooksDataActivity.this, apiResponse, Toast.LENGTH_SHORT).show();
             }
         });
     }
-
 }

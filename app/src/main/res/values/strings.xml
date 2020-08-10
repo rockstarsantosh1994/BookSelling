@@ -7,4 +7,6 @@
     <string name="success_story">Success Story</string>
     <string name="play_video">Play Video</string>
     <string name="view_video">View Video</string>
+    <string name="books_data">books Data</string>
+    <string name="my_orders">My Orders</string>
 </resources>

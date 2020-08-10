@@ -5,15 +5,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".DashBoardActivity">
 
-    <include
-        layout="@layout/toolbar"/>
-
-    <androidx.recyclerview.widget.RecyclerView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/rv_book"/>
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_margin="@dimen/margin5">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:backgroundTint="@color/grey50"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_book_data"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/books_data"
+                style="?android:attr/borderlessButtonStyle"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/grey50"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_my_orders"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/my_orders"
+                style="?android:attr/borderlessButtonStyle"
+                android:textColor="@color/black" />
+        </LinearLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_click"
@@ -56,4 +89,5 @@
                 android:textColor="@color/black" />
         </LinearLayout>
     </LinearLayout>
+
 </LinearLayout>
