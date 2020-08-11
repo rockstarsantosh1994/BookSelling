@@ -2,6 +2,7 @@ package com.example.bookselling.services;
 
 import android.text.Html;
 
+import com.example.bookselling.model.myorder.MyOrderResponse;
 import com.example.bookselling.model.product.ProductResponse;
 import com.example.bookselling.model.story.SuccessStoryResponse;
 import com.example.bookselling.model.videogallery.VideoGalleryResponse;
@@ -15,6 +16,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -77,6 +79,35 @@ public class ApiRequestHelper {
         Call<VideoGalleryResponse> call = banyanBazarServices.getVideoGallery();
         video_gallery_api(onRequestComplete, call);
     }
+
+    public void myOrder(Map<String,String> params, final OnRequestComplete onRequestComplete) {
+        Call<MyOrderResponse> call = banyanBazarServices.myOrder(params);
+        my_order_api(onRequestComplete, call);
+    }
+
+    private void my_order_api(final OnRequestComplete onRequestComplete, Call<MyOrderResponse> call) {
+        call.enqueue(new Callback<MyOrderResponse>() {
+            @Override
+            public void onResponse(Call<MyOrderResponse> call, Response<MyOrderResponse> response) {
+                if (response.isSuccessful()) {
+                    onRequestComplete.onSuccess(response.body());
+                } else {
+                    try {
+                        onRequestComplete.onFailure(Html.fromHtml(response.errorBody().string()) + "");
+                    } catch (IOException e) {
+                        onRequestComplete.onFailure("Unproper Response");
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MyOrderResponse> call, Throwable t) {
+                handle_fail_response(t, onRequestComplete);
+            }
+        });
+    }
+
 
     private void product_api(final OnRequestComplete onRequestComplete, Call<ProductResponse> call) {
         call.enqueue(new Callback<ProductResponse>() {

@@ -125,7 +125,6 @@ Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying ou
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:visibility="gone"
             android:backgroundTint="@color/grey50"
             android:orientation="vertical">
 

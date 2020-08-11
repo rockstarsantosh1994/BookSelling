@@ -2,6 +2,7 @@ package com.example.bookselling;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 
 import android.graphics.Color;
@@ -9,6 +10,7 @@ import android.graphics.PorterDuff;
 import android.media.Image;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,7 +24,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class BookInfoActivity extends AppCompatActivity {
+public class BookInfoActivity extends AppCompatActivity implements View.OnClickListener {
 
     @BindView(R.id.iv_product_img)
     ImageView ivProductImage;
@@ -32,6 +34,11 @@ public class BookInfoActivity extends AppCompatActivity {
     TextView tvProductPrice;
     @BindView(R.id.tv_product_description)
     TextView tvProductDescription;
+    @BindView(R.id.btn_add_to_cart)
+    AppCompatButton btnAddToCart;
+    @BindView(R.id.btn_buy_now)
+    AppCompatButton btnBuyNow;
+
     private ProductBO productBO;
 
     @Override
@@ -63,6 +70,23 @@ public class BookInfoActivity extends AppCompatActivity {
         toolbar.setTitle("Book Detail");
         toolbar.setTitleTextColor(Color.WHITE);
         Objects.requireNonNull(toolbar.getNavigationIcon()).setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
+
+        //Click listeners..
+        btnAddToCart.setOnClickListener(this);
+        btnBuyNow.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_add_to_cart:
+
+                break;
+
+            case R.id.btn_buy_now:
+
+                break;
+        }
     }
 
     @Override
