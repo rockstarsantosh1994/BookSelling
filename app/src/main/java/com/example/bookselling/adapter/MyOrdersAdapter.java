@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.bookselling.BookInfoActivity;
 import com.example.bookselling.MyOrdersDetailsActivity;
 import com.example.bookselling.R;
@@ -48,6 +50,10 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.MyOrde
     @Override
     public void onBindViewHolder(@NonNull MyOrdersViewHolder holder, int position) {
 
+         if(myOrderBOArrayList.get(position).getOrderPic()!=null){
+             Glide.with(context).load(myOrderBOArrayList.get(position).getOrderPic()).error(R.drawable.ic_launcher_background).into(holder.ivOrderImg);
+         }
+         
          if(myOrderBOArrayList.get(position).getIsSucceed()==1){
              holder.tvOrderStatus.setText("Order Confirmed");
          }else{
@@ -95,6 +101,8 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.MyOrde
         TextView tvOrderPrice;
         @BindView(R.id.cv_my_orders)
         CardView cvMyOrders;
+        @BindView(R.id.iv_order_img)
+        ImageView ivOrderImg;
 
         public MyOrdersViewHolder(@NonNull View itemView) {
             super(itemView);

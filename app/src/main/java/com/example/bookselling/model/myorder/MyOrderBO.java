@@ -3,6 +3,8 @@ package com.example.bookselling.model.myorder;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.bookselling.model.product.ProductBO;
+
 import java.util.ArrayList;
 
 public class MyOrderBO implements Parcelable {
@@ -11,15 +13,17 @@ public class MyOrderBO implements Parcelable {
     private int totalPrice;
     private String orderDateTime;
     private int isSucceed;
-    private ArrayList<MyItemsBO> items;
+    private String orderPic;
+    private ArrayList<ProductBO> items;
 
     protected MyOrderBO(Parcel in) {
         id = in.readInt();
         userId = in.readInt();
         totalPrice = in.readInt();
         orderDateTime = in.readString();
+        orderPic = in.readString();
         isSucceed = in.readInt();
-        items = in.createTypedArrayList(MyItemsBO.CREATOR);
+        items = in.createTypedArrayList(ProductBO.CREATOR);
     }
 
     public static final Creator<MyOrderBO> CREATOR = new Creator<MyOrderBO>() {
@@ -74,14 +78,22 @@ public class MyOrderBO implements Parcelable {
         this.isSucceed = isSucceed;
     }
 
-    public ArrayList<MyItemsBO> getItems() {
+    public String getOrderPic() {
+        return orderPic;
+    }
+
+    public void setOrderPic(String orderPic) {
+        this.orderPic = orderPic;
+    }
+
+    public ArrayList<ProductBO> getItems() {
         if(this.items==null){
-            this.items=new ArrayList<MyItemsBO>();
+            this.items=new ArrayList<ProductBO>();
         }
         return items;
     }
 
-    public void setItems(ArrayList<MyItemsBO> items) {
+    public void setItems(ArrayList<ProductBO> items) {
         this.items = items;
     }
 
@@ -96,6 +108,7 @@ public class MyOrderBO implements Parcelable {
         dest.writeInt(userId);
         dest.writeInt(totalPrice);
         dest.writeString(orderDateTime);
+        dest.writeString(orderPic);
         dest.writeInt(isSucceed);
         dest.writeTypedList(items);
     }

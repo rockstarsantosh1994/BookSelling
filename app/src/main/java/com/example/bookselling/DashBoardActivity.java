@@ -9,6 +9,7 @@ import android.view.View;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.paperdb.Paper;
 
 public class DashBoardActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -20,17 +21,21 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     AppCompatButton btnVideoGallery;
     @BindView(R.id.btn_success_story)
     AppCompatButton btnSuccessStory;
+    @BindView(R.id.btn_add_to_cart)
+    AppCompatButton btnAddToCart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dash_board);
         ButterKnife.bind(this);
+        Paper.init(DashBoardActivity.this);
 
         btnBookData.setOnClickListener(this);
         btnMyOrders.setOnClickListener(this);
         btnVideoGallery.setOnClickListener(this);
         btnSuccessStory.setOnClickListener(this);
+        btnAddToCart.setOnClickListener(this);
 
     }
 
@@ -52,6 +57,11 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
             case R.id.btn_success_story:
                 startActivity(new Intent(DashBoardActivity.this,SuccessStoryActivity.class).putExtra("type","success_story"));
                 break;
+
+            case R.id.btn_add_to_cart:
+                startActivity(new Intent(DashBoardActivity.this,AddToCartActivity.class));
+                break;
+
         }
     }
 }

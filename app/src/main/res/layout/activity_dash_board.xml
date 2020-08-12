@@ -90,4 +90,32 @@
         </LinearLayout>
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/ll_click"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_margin="@dimen/margin5">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:backgroundTint="@color/grey50"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_add_to_cart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/add_to_cart"
+                style="?android:attr/borderlessButtonStyle"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+       out>
+    </LinearLayout>
+
 </LinearLayout>

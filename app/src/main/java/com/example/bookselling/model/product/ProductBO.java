@@ -1,7 +1,12 @@
 package com.example.bookselling.model.product;
 
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import androidx.annotation.RequiresApi;
+
+import java.util.Objects;
 
 public class ProductBO implements Parcelable {
     private int id;
@@ -10,16 +15,31 @@ public class ProductBO implements Parcelable {
     private int price;
     private String coverPhoto;
     private String creationDateTime;
+    private int quantity;
     private int isActive;
+    private int productTotal=0;
+
+    public ProductBO(int id, String title, String details, int price, String coverPhoto, int quantity, int isActive, int productTotal) {
+        this.id = id;
+        this.title = title;
+        this.details = details;
+        this.price = price;
+        this.coverPhoto = coverPhoto;
+        this.quantity = quantity;
+        this.isActive = isActive;
+        this.productTotal = productTotal;
+    }
 
     protected ProductBO(Parcel in) {
         id = in.readInt();
         title = in.readString();
         details = in.readString();
         price = in.readInt();
+        quantity = in.readInt();
         coverPhoto = in.readString();
         creationDateTime = in.readString();
         isActive = in.readInt();
+        productTotal=in.readInt();
     }
 
     public static final Creator<ProductBO> CREATOR = new Creator<ProductBO>() {
@@ -82,6 +102,25 @@ public class ProductBO implements Parcelable {
         this.creationDateTime = creationDateTime;
     }
 
+    public int getQuantity() {
+        if( this.quantity==0){
+            this.quantity=1;
+        }
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public int getProductTotal() {
+        return productTotal;
+    }
+
+    public void setProductTotal(int productTotal) {
+        this.productTotal = productTotal;
+    }
+
     public int getIsActive() {
         return isActive;
     }
@@ -101,8 +140,24 @@ public class ProductBO implements Parcelable {
         dest.writeString(title);
         dest.writeString(details);
         dest.writeInt(price);
+        dest.writeInt(quantity);
         dest.writeString(coverPhoto);
         dest.writeString(creationDateTime);
         dest.writeInt(isActive);
+        dest.writeInt(productTotal);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductBO productBO = (ProductBO) o;
+        return id == productBO.id;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

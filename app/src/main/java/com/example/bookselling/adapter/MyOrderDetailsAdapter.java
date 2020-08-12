@@ -18,32 +18,29 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.bookselling.BookInfoActivity;
 import com.example.bookselling.R;
-import com.example.bookselling.model.myorder.MyItemsBO;
 import com.example.bookselling.model.product.ProductBO;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MyOrderDetailsAdapter extends RecyclerView.Adapter<MyOrderDetailsAdapter.MyOrderDetailsViewHolder>{
+public class MyOrderDetailsAdapter extends RecyclerView.Adapter<MyOrderDetailsAdapter.MyOrderDetailsViewHolder> {
 
     private Context context;
-    private ArrayList<MyItemsBO> myItemsBOArrayList;
-    private final int[] backgroundColors = {R.color.grey100,R.color.grey50};
+    private ArrayList<ProductBO> productBOArrayList;
+    private final int[] backgroundColors = {R.color.grey100, R.color.grey50};
 
-    public MyOrderDetailsAdapter(Context context, ArrayList<MyItemsBO> myItemsBOArrayList) {
+    public MyOrderDetailsAdapter(Context context, ArrayList<ProductBO> productBOArrayList) {
         this.context = context;
-        this.myItemsBOArrayList = myItemsBOArrayList;
+        this.productBOArrayList = productBOArrayList;
     }
 
     @NonNull
     @Override
     public MyOrderDetailsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater=LayoutInflater.from(parent.getContext());
-        View view=inflater.inflate(R.layout.row_my_order_details,parent,false);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View view = inflater.inflate(R.layout.row_my_order_details, parent, false);
         return new MyOrderDetailsViewHolder(view);
     }
 
@@ -53,29 +50,28 @@ public class MyOrderDetailsAdapter extends RecyclerView.Adapter<MyOrderDetailsAd
         int bgColor = ContextCompat.getColor(context, backgroundColors[position % 2]);
         holder.cardView.setCardBackgroundColor(bgColor);
 
-        //Glide.with(context).load(myItemsBOArrayList.get(position).getCoverPhoto()).into(holder.ivProductImage);
+        Glide.with(context).load(productBOArrayList.get(position).getCoverPhoto()).into(holder.ivProductImage);
 
-        holder.tvProductTitle.setText(myItemsBOArrayList.get(position).getTitle());
-        holder.tvProductPrice.setText("₹" +myItemsBOArrayList.get(position).getPrice() + " /-");
-        holder.tvProductDescription.setText(myItemsBOArrayList.get(position).getDetails());
-        holder.tvProductQuantity.setText(""+myItemsBOArrayList.get(position).getQuantity());
+        holder.tvProductTitle.setText(productBOArrayList.get(position).getTitle());
+        holder.tvProductPrice.setText("₹" + productBOArrayList.get(position).getPrice() + " /-");
+        holder.tvProductDescription.setText(productBOArrayList.get(position).getDetails());
+        holder.tvProductQuantity.setText(""+productBOArrayList.get(position).getQuantity());
 
 
-/*
-holder.llProductClick.setOnClickListener(v -> {
-            Intent intent=new Intent(context, BookInfoActivity.class);
+        holder.llProductClick.setOnClickListener(v -> {
+            Intent intent = new Intent(context, BookInfoActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            intent.putExtra("productbo",myItemsBOArrayList.get(position));
+            intent.putExtra("productbo", productBOArrayList.get(position));
             context.startActivity(intent);
-        });*/
+        });
     }
 
     @Override
     public int getItemCount() {
-        return myItemsBOArrayList.size();
+        return productBOArrayList.size();
     }
 
-    public class MyOrderDetailsViewHolder extends RecyclerView.ViewHolder{
+    public class MyOrderDetailsViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.iv_product_img)
         ImageView ivProductImage;
@@ -94,7 +90,7 @@ holder.llProductClick.setOnClickListener(v -> {
 
         public MyOrderDetailsViewHolder(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

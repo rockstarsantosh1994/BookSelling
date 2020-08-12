@@ -1,6 +1,9 @@
 package com.example.bookselling.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,26 +12,34 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.example.bookselling.AddToCartActivity;
 import com.example.bookselling.R;
 import com.example.bookselling.model.product.ProductBO;
 import com.shawnlin.numberpicker.NumberPicker;
-
 import java.util.ArrayList;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.paperdb.Paper;
 
 public class AddToCartAdapter extends RecyclerView.Adapter<AddToCartAdapter.AddToCartViewHolder>{
 
     private Context context;
     private ArrayList<ProductBO> productBOArrayList;
+    int sum = 0;
+    private AddToCartActivity addToCartActivity;
 
-    public AddToCartAdapter(Context context, ArrayList<ProductBO> productBOArrayList) {
+    public AddToCartAdapter(Context context, ArrayList<ProductBO> productBOArrayList,AddToCartActivity addToCartActivity) {
         this.context = context;
         this.productBOArrayList = productBOArrayList;
+        this.addToCartActivity=addToCartActivity;
     }
 
     @NonNull
@@ -41,11 +52,69 @@ public class AddToCartAdapter extends RecyclerView.Adapter<AddToCartAdapter.AddT
 
     @Override
     public void onBindViewHolder(@NonNull AddToCartViewHolder holder, int position) {
-      //  Glide.with(context).load(AllKeys.PRODUCT_IMG_URL + addToCartActivity.productsBOMap.get(stringArray[position]).getProductid() + ".jpg").into(holder.ivProductImage);
-        holder.tvProductTitle.setText("");
-        holder.tvProductPrice.setText("₹" +"" + " /-");
-        holder.tvProductDescription.setText("");
-        holder.numberPicker.setValue(1);
+
+        if(productBOArrayList.get(position).getCoverPhoto()!=null){
+            Glide.with(context).load(productBOArrayList.get(position).getCoverPhoto()).into(holder.ivProductImage);
+        }
+
+        holder.tvProductTitle.setText(productBOArrayList.get(position).getTitle());
+        sum = productBOArrayList.get(position).getPrice()* productBOArrayList.get(position).getQuantity();
+        holder.tvProductPrice.setText("₹" + sum + " /-");
+        holder.tvProductDescription.setText(productBOArrayList.get(position).getDetails());
+        holder.numberPicker.setValue(productBOArrayList.get(position).getQuantity());
+
+        holder.ivRemove.setOnClickListener(v -> {
+            new AlertDialog.Builder(context)
+                    .setTitle(R.string.app_name)
+                    .setMessage("Are you sure want to remove product?")
+
+                    // Specifying a listener allows you to take an action before dismissing the dialog.
+                    // The dialog is automatically dismissed when a dialog button is clicked.
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        // Continue with delete operation
+                        productBOArrayList.remove(position);
+                        Paper.book().write("product_cart",productBOArrayList);
+                        notifyItemRemoved(position);
+
+                        int sum = 0;
+                        for(int i = 0; i < productBOArrayList.size(); i++)
+                            sum += productBOArrayList.get(i).getProductTotal();
+                        addToCartActivity.getTotal(sum);
+                    })
+
+                    // A null listener allows the button to dismiss the dialog and take no further action.
+                    .setNegativeButton("No", null)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+
+        });
+
+        // OnValueChangeListener
+        holder.numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                sum = newVal * productBOArrayList.get(position).getPrice();
+
+                productBOArrayList.set(position,new ProductBO(
+                        productBOArrayList.get(position).getId(),
+                        productBOArrayList.get(position).getTitle(),
+                        productBOArrayList.get(position).getDetails(),
+                        productBOArrayList.get(position).getPrice(),
+                        productBOArrayList.get(position).getCoverPhoto(),
+                        newVal,
+                        productBOArrayList.get(position).getIsActive(),
+                        sum));
+
+                notifyItemChanged(position);
+                Paper.book().write("product_cart",productBOArrayList);
+
+                int sum = 0;
+                for(int i = 0; i < productBOArrayList.size(); i++)
+                    sum += productBOArrayList.get(i).getProductTotal();
+                addToCartActivity.getTotal(sum);
+            }
+        });
     }
 
     @Override

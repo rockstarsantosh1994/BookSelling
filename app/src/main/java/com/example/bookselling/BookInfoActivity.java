@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.media.Image;
@@ -13,16 +14,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.bookselling.model.product.ProductBO;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.paperdb.Paper;
 
 public class BookInfoActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -38,6 +46,7 @@ public class BookInfoActivity extends AppCompatActivity implements View.OnClickL
     AppCompatButton btnAddToCart;
     @BindView(R.id.btn_buy_now)
     AppCompatButton btnBuyNow;
+    private ArrayList<ProductBO> productBOArrayList=new ArrayList<>();
 
     private ProductBO productBO;
 
@@ -46,6 +55,11 @@ public class BookInfoActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_info);
         ButterKnife.bind(this);
+
+        //Checking if their any product available in Cart or not
+        if(Paper.book().read("product_cart")!=null){
+            productBOArrayList=Paper.book().read("product_cart");
+        }
 
         //basic intialisation..
         initViews();
@@ -80,11 +94,44 @@ public class BookInfoActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_add_to_cart:
-
+                if(productBOArrayList.contains(productBO)){
+                    Paper.book().write("product_cart",productBOArrayList);
+                    Toast.makeText(BookInfoActivity.this, "Product already added!", Toast.LENGTH_SHORT).show();
+                }else{
+                    productBOArrayList.add(new ProductBO(productBO.getId(),
+                            productBO.getTitle(),
+                            productBO.getDetails(),
+                            productBO.getPrice(),
+                            productBO.getCoverPhoto(),
+                            1,
+                            productBO.getIsActive(),
+                            productBO.getPrice()*productBO.getQuantity()));
+                    Paper.book().write("product_cart",productBOArrayList);
+                    Toast.makeText(BookInfoActivity.this, "Added to cart!", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
             case R.id.btn_buy_now:
+                if(productBOArrayList.contains(productBO)){
+                    Paper.book().write("product_cart",productBOArrayList);
+                    Intent intent=new Intent(BookInfoActivity.this,AddToCartActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                }else{
+                    productBOArrayList.add(new ProductBO(productBO.getId(),
+                            productBO.getTitle(),
+                            productBO.getDetails(),
+                            productBO.getPrice(),
+                            productBO.getCoverPhoto(),
+                            1,
+                            productBO.getIsActive(),
+                            productBO.getPrice()*productBO.getQuantity()));
 
+                    Paper.book().write("product_cart",productBOArrayList);
+                    Intent intent=new Intent(BookInfoActivity.this,AddToCartActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                }
                 break;
         }
     }

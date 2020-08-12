@@ -16,4 +16,7 @@
     <string name="total">Total</string>
     <string name="checkout">Checkout</string>
     <string name="quantity">Quantity</string>
+    <string name="add_items_to_it_now">Add item to it now</string>
+    <string name="your_cart_is_empty">Your cart is empty</string>
+    <string name="start_shopping">Start Shopping</string>
 </resources>
