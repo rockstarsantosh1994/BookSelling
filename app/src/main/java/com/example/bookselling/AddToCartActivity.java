@@ -7,12 +7,14 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.bookselling.adapter.AddToCartAdapter;
@@ -38,6 +40,10 @@ public class AddToCartActivity extends AppCompatActivity implements View.OnClick
     @BindView(R.id.btn_checkout)
     AppCompatButton btnCheckout;
     private ArrayList<ProductBO> productBOArrayList=new ArrayList<>();
+    @BindView(R.id.rl_nodata)
+    RelativeLayout rlNoData;
+    @BindView(R.id.rl_mainL_layout)
+    RelativeLayout rlMainLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,14 +56,25 @@ public class AddToCartActivity extends AppCompatActivity implements View.OnClick
 
         if(Paper.book().read("product_cart") !=null){
             productBOArrayList=Paper.book().read("product_cart");
-            AddToCartAdapter addToCartAdapter=new AddToCartAdapter(AddToCartActivity.this,productBOArrayList,AddToCartActivity.this);
-            rvAddToCart.setAdapter(addToCartAdapter);
+            if(productBOArrayList.size()>0){
+                rlMainLayout.setVisibility(View.VISIBLE);
+                rlNoData.setVisibility(View.GONE);
+                AddToCartAdapter addToCartAdapter=new AddToCartAdapter(AddToCartActivity.this,productBOArrayList,AddToCartActivity.this);
+                rvAddToCart.setAdapter(addToCartAdapter);
 
-            int sum = 0;
-            for(int i = 0; i < productBOArrayList.size(); i++){
-                sum += productBOArrayList.get(i).getProductTotal();
+                int sum = 0;
+                for(int i = 0; i < productBOArrayList.size(); i++){
+                    sum += productBOArrayList.get(i).getProductTotal();
+                }
+                tvTotalAmount.setText(""+sum);
+            }else{
+                rlMainLayout.setVisibility(View.GONE);
+                rlNoData.setVisibility(View.VISIBLE);
             }
-            tvTotalAmount.setText(""+sum);
+
+        }else{
+            rlMainLayout.setVisibility(View.GONE);
+            rlNoData.setVisibility(View.VISIBLE);
         }
     }
 
@@ -80,6 +97,9 @@ public class AddToCartActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         if (v.getId() == R.id.btn_checkout) {
 
+        }else if(v.getId()== R.id.btn_shopping_now){
+            startActivity(new Intent(AddToCartActivity.this,DashBoardActivity.class));
+            finish();
         }
     }
 

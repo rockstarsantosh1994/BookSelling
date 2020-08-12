@@ -97,7 +97,7 @@
             android:id="@+id/iv_cart"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/margin100"
-            android:src="@drawable/ic_atm"
+            android:src="@drawable/ic_shopping_cart"
             android:layout_centerInParent="true"
             android:gravity="center_horizontal"
             />
