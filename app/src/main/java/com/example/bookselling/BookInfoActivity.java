@@ -56,7 +56,13 @@ public class BookInfoActivity extends AppCompatActivity implements View.OnClickL
         //Checking if their any product available in Cart or not
         if(Paper.book().read("product_cart")!=null){
             productBOArrayList=Paper.book().read("product_cart");
-            tvCount.setText(""+productBOArrayList.size());
+            if(productBOArrayList.size()==0){
+                tvCount.setVisibility(View.GONE);
+            }else{
+                tvCount.setVisibility(View.VISIBLE);
+                tvCount.setText(""+productBOArrayList.size());
+            }
+
         }
 
         if(getIntent().getParcelableExtra("productbo")!=null){

@@ -58,12 +58,12 @@ public class MyOrderDetailsAdapter extends RecyclerView.Adapter<MyOrderDetailsAd
         holder.tvProductQuantity.setText(""+productBOArrayList.get(position).getQuantity());
 
 
-        holder.llProductClick.setOnClickListener(v -> {
+      /*  holder.llProductClick.setOnClickListener(v -> {
             Intent intent = new Intent(context, BookInfoActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.putExtra("productbo", productBOArrayList.get(position));
             context.startActivity(intent);
-        });
+        });*/
     }
 
     @Override

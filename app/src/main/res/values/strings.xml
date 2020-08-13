@@ -10,7 +10,7 @@
     <string name="books_data">books Data</string>
     <string name="my_orders">My Orders</string>
     <string name="order_details">OrderDetails</string>
-    <string name="order_id">OrderID:-</string>
+    <string name="order_id">OrderID</string>
     <string name="order_date">Order Date</string>
     <string name="order_total">Order Total</string>
     <string name="total">Total</string>

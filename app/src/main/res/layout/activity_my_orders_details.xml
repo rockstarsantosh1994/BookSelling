@@ -43,9 +43,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/order_id"
-                android:textColor="@color/grey500"
+                android:textColor="@color/black"
                 android:textSize="@dimen/textsize16"
-                android:layout_weight="1"/>
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:fontFamily="@font/sourcesanspro_regular"/>
 
             <TextView
                 android:id="@+id/tv_order_id"
@@ -68,9 +70,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/order_date"
-                android:textColor="@color/grey500"
+                android:textColor="@color/black"
+                android:textStyle="bold"
                 android:textSize="@dimen/textsize16"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:fontFamily="@font/sourcesanspro_regular"/>
 
             <TextView
                 android:id="@+id/tv_order_date"
@@ -95,7 +99,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/order_total"
-                android:textColor="@color/grey500"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:fontFamily="@font/sourcesanspro_regular"
                 android:textSize="@dimen/textsize16"
                 android:layout_weight="1"/>
 
@@ -104,8 +110,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
+                android:fontFamily="@font/sourcesanspro_regular"
                 android:textSize="@dimen/textsize18"
-                android:textStyle="bold"
                 android:layout_weight="1"/>
         </LinearLayout>
 

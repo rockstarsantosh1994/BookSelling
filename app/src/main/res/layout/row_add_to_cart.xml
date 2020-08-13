@@ -53,7 +53,8 @@
                         android:text="Rajhans Milk , Sangmaner"
                         android:textColor="@color/black"
                         android:textSize="@dimen/textsize16"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:fontFamily="@font/sourcesanspro_regular"/>
 
                     <ImageView
                         android:layout_width="@dimen/margin15"
@@ -73,7 +74,8 @@
                     android:text="700 /-"
                     android:textColor="@color/red700"
                     android:textSize="@dimen/textsize18"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:fontFamily="@font/sourcesanspro_regular"/>
 
                 <TextView
                     android:id="@+id/tv_product_description"
@@ -87,7 +89,8 @@
                     android:maxLines="2"
                     android:text="Rajhans Milk , Sangmaner"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/textsize12" />
+                    android:textSize="@dimen/textsize12"
+                    android:fontFamily="@font/sourcesanspro_regular"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -105,7 +108,8 @@
                         android:layout_marginTop="@dimen/margin5"
                         android:layout_marginBottom="@dimen/margin5"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/textsize12" />
+                        android:textSize="@dimen/textsize12"
+                        android:fontFamily="@font/sourcesanspro_regular"/>
 
                     <com.shawnlin.numberpicker.NumberPicker
                         android:id="@+id/np_picker"

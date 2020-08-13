@@ -56,7 +56,8 @@
                         android:text="Rajhans Milk , Sangmaner"
                         android:textColor="@color/green700"
                         android:textSize="@dimen/textsize18"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:fontFamily="@font/sourcesanspro_regular"/>
 
                     <TextView
                         android:id="@+id/tv_order_date"
@@ -69,7 +70,8 @@
                         android:maxLines="4"
                         android:text="Rajhans Milk , Sangmaner"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/textsize12" />
+                        android:textSize="@dimen/textsize12"
+                        android:fontFamily="@font/sourcesanspro_regular"/>
 
                     <TextView
                         android:id="@+id/tv_order_price"
@@ -83,7 +85,8 @@
                         android:textColor="@color/red700"
                         android:textSize="@dimen/textsize18"
                         android:textStyle="bold"
-                        android:layout_marginBottom="@dimen/margin5"/>
+                        android:layout_marginBottom="@dimen/margin5"
+                        android:fontFamily="@font/sourcesanspro_regular"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>

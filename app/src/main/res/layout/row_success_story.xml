@@ -28,11 +28,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin10"
                 android:layout_marginTop="@dimen/margin5"
-                android:ellipsize="end"
-                android:maxLines="2"
                 android:text="Rajhans Milk , Sangmaner"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/textsize16"
+                android:fontFamily="@font/sourcesanspro_regular"
                 android:textStyle="bold" />
 
             <TextView
@@ -43,10 +42,9 @@
                 android:layout_marginTop="@dimen/margin5"
                 android:layout_marginRight="@dimen/margin10"
                 android:layout_marginBottom="@dimen/margin5"
-                android:ellipsize="end"
-                android:maxLines="4"
                 android:text="Rajhans Milk , Sangmaner"
                 android:textColor="@color/black"
+                android:fontFamily="@font/sourcesanspro_regular"
                 android:textSize="@dimen/textsize12" />
 
             <ImageView
@@ -72,6 +70,7 @@
                 android:textStyle="bold"
                 android:textColorHint="@color/black"
                 android:layout_margin="@dimen/margin5"
+                android:fontFamily="@font/sourcesanspro_regular"
                 app:drawableLeftCompat="@drawable/ic_youtube"
                 android:drawablePadding="@dimen/margin10"/>
         </LinearLayout>
