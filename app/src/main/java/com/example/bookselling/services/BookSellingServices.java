@@ -1,5 +1,6 @@
 package com.example.bookselling.services;
 
+import com.example.bookselling.model.CreateOrderResponse;
 import com.example.bookselling.model.myorder.MyOrderResponse;
 import com.example.bookselling.model.product.ProductResponse;
 import com.example.bookselling.model.story.SuccessStoryResponse;
@@ -27,4 +28,8 @@ public interface BookSellingServices {
     @FormUrlEncoded
     @POST("myorders.php")
     Call<MyOrderResponse> myOrder(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("createorder.php")
+    Call<CreateOrderResponse> createOrder(@FieldMap Map<String, String> params);
 }

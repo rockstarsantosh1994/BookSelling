@@ -7,20 +7,31 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.bookselling.adapter.AddToCartAdapter;
+import com.example.bookselling.adapter.MyOrdersAdapter;
+import com.example.bookselling.model.CreateOrderResponse;
+import com.example.bookselling.model.myorder.MyOrderResponse;
 import com.example.bookselling.model.product.ProductBO;
+import com.example.bookselling.services.ApiRequestHelper;
+import com.example.bookselling.services.BookSelling;
+import com.example.bookselling.utils.AllKeys;
+import com.example.bookselling.utils.CommonMethods;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -44,12 +55,15 @@ public class AddToCartActivity extends AppCompatActivity implements View.OnClick
     RelativeLayout rlNoData;
     @BindView(R.id.rl_mainL_layout)
     RelativeLayout rlMainLayout;
+    private BookSelling bookSelling;
+    private  String TAG="AddToCartActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_to_cart);
         ButterKnife.bind(this);
+        bookSelling=(BookSelling)getApplication();
 
         //basic intialisation...
         initViews();
@@ -96,6 +110,29 @@ public class AddToCartActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btn_checkout) {
+            if(CommonMethods.isNetworkAvailable(AddToCartActivity.this)){
+                String items = "";
+                String prices= "";
+                String quantity="";
+                if (productBOArrayList.size() > 0)
+                {
+                    StringBuilder items_builder = new StringBuilder();
+                    StringBuilder price_builder = new StringBuilder();
+                    StringBuilder quantity_builder = new StringBuilder();
+                    for (ProductBO productBO: productBOArrayList)
+                    {
+                        items_builder.append(productBO.getId()).append(",");
+                        price_builder.append(productBO.getPrice()).append(",");
+                        quantity_builder.append(productBO.getQuantity()).append(",");
+                    }
+                    items = items_builder.deleteCharAt(items_builder.length() - 1).toString();
+                    prices = price_builder.deleteCharAt(price_builder.length() - 1).toString();
+                    quantity = quantity_builder.deleteCharAt(quantity_builder.length() - 1).toString();
+                }
+                 createOrder(items,prices,quantity);
+            }else{
+                Toast.makeText(AddToCartActivity.this, AllKeys.NO_INTERNET_AVAILABLE, Toast.LENGTH_SHORT).show();
+            }
 
         }else if(v.getId()== R.id.btn_shopping_now){
             startActivity(new Intent(AddToCartActivity.this,DashBoardActivity.class));
@@ -103,6 +140,47 @@ public class AddToCartActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
+    private void createOrder(String items,String prices, String quantity){
+        final ProgressDialog progress = new ProgressDialog(this);
+        progress.setMessage("Please wait....");
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.show();
+        progress.setCancelable(false);
+
+
+        Map<String, String> params=new HashMap<>();
+        params.put("userid","464");
+        params.put("items",items);
+        params.put("itemprices",prices);
+        params.put("quantity",quantity);
+        params.put("total",tvTotalAmount.getText().toString());
+
+        Log.e(TAG, "createOrder: params"+params );
+
+        bookSelling.getApiRequestHelper().createOrder(params,new ApiRequestHelper.OnRequestComplete() {
+            @Override
+            public void onSuccess(Object object) {
+                CreateOrderResponse createOrderResponse = (CreateOrderResponse) object;
+                Log.e(TAG, "onSuccess: " + createOrderResponse.getResponsecode());
+                //Log.e(TAG, "onSuccess: " + createOrderResponse.getMessage());
+                //Log.e(TAG, "onSuccess: " + createOrderResponse.getTransactionId());
+                progress.dismiss();
+                if (createOrderResponse.getResponsecode() == 200) {
+                    Toast.makeText(AddToCartActivity.this,createOrderResponse.getMessage()+"\n"+createOrderResponse.getTransactionId(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(AddToCartActivity.this,createOrderResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(String apiResponse) {
+                progress.dismiss();
+                Toast.makeText(AddToCartActivity.this, apiResponse, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    //Setting text to TextView when deleting or updating the recycler view..
     public void getTotal(int total){
         tvTotalAmount.setText(""+total);
     }

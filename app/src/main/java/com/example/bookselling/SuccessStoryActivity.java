@@ -19,6 +19,8 @@ import com.example.bookselling.adapter.VideoGalleryDataAdapter;
 import com.example.bookselling.model.story.SuccessStoryResponse;
 import com.example.bookselling.services.ApiRequestHelper;
 import com.example.bookselling.services.BookSelling;
+import com.example.bookselling.utils.AllKeys;
+import com.example.bookselling.utils.CommonMethods;
 
 import java.util.Objects;
 
@@ -51,7 +53,11 @@ public class SuccessStoryActivity extends AppCompatActivity {
             }
         }else{
             //load success story data and append to recyclerview..
-            loadData();
+            if(CommonMethods.isNetworkAvailable(SuccessStoryActivity.this)){
+                loadData();
+            }else{
+                Toast.makeText(SuccessStoryActivity.this, AllKeys.NO_INTERNET_AVAILABLE, Toast.LENGTH_SHORT).show();
+            }
         }
 
         if(!getIntent().getStringExtra("type").equals("video_gallery")){

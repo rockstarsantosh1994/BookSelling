@@ -22,6 +22,8 @@ import com.example.bookselling.model.videogallery.VideoGalleryBO;
 import com.example.bookselling.model.videogallery.VideoGalleryResponse;
 import com.example.bookselling.services.ApiRequestHelper;
 import com.example.bookselling.services.BookSelling;
+import com.example.bookselling.utils.AllKeys;
+import com.example.bookselling.utils.CommonMethods;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,7 +55,11 @@ public class VideoGalleryActivity extends AppCompatActivity {
         initViews();
 
         //load video gallery data...
-        loadData();
+        if(CommonMethods.isNetworkAvailable(VideoGalleryActivity.this)){
+            loadData();
+        }else{
+            Toast.makeText(VideoGalleryActivity.this, AllKeys.NO_INTERNET_AVAILABLE, Toast.LENGTH_SHORT).show();
+        }
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

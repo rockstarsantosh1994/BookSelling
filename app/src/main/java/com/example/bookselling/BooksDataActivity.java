@@ -12,6 +12,9 @@ import com.example.bookselling.adapter.BookScreenAdapter;
 import com.example.bookselling.model.product.ProductResponse;
 import com.example.bookselling.services.ApiRequestHelper;
 import com.example.bookselling.services.BookSelling;
+import com.example.bookselling.utils.AllKeys;
+import com.example.bookselling.utils.CommonMethods;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -34,7 +37,12 @@ public class BooksDataActivity extends AppCompatActivity {
         initViews();
 
         //load book data and append to recycler view....
-        loadData();
+        if(CommonMethods.isNetworkAvailable(BooksDataActivity.this)){
+            loadData();
+        }else{
+            Toast.makeText(BooksDataActivity.this, AllKeys.NO_INTERNET_AVAILABLE, Toast.LENGTH_SHORT).show();
+        }
+
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

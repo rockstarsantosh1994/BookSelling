@@ -2,6 +2,7 @@ package com.example.bookselling.services;
 
 import android.text.Html;
 
+import com.example.bookselling.model.CreateOrderResponse;
 import com.example.bookselling.model.myorder.MyOrderResponse;
 import com.example.bookselling.model.product.ProductResponse;
 import com.example.bookselling.model.story.SuccessStoryResponse;
@@ -83,6 +84,34 @@ public class ApiRequestHelper {
     public void myOrder(Map<String,String> params, final OnRequestComplete onRequestComplete) {
         Call<MyOrderResponse> call = banyanBazarServices.myOrder(params);
         my_order_api(onRequestComplete, call);
+    }
+
+    public void createOrder(Map<String,String> params, final OnRequestComplete onRequestComplete) {
+        Call<CreateOrderResponse> call = banyanBazarServices.createOrder(params);
+        create_order_api(onRequestComplete, call);
+    }
+
+    private void create_order_api(final OnRequestComplete onRequestComplete, Call<CreateOrderResponse> call) {
+        call.enqueue(new Callback<CreateOrderResponse>() {
+            @Override
+            public void onResponse(Call<CreateOrderResponse> call, Response<CreateOrderResponse> response) {
+                if (response.isSuccessful()) {
+                    onRequestComplete.onSuccess(response.body());
+                } else {
+                    try {
+                        onRequestComplete.onFailure(Html.fromHtml(response.errorBody().string()) + "");
+                    } catch (IOException e) {
+                        onRequestComplete.onFailure("Unproper Response");
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateOrderResponse> call, Throwable t) {
+                handle_fail_response(t, onRequestComplete);
+            }
+        });
     }
 
     private void my_order_api(final OnRequestComplete onRequestComplete, Call<MyOrderResponse> call) {
