@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.ProgressDialog;
 import android.graphics.Color;
@@ -34,6 +35,8 @@ public class VideoGalleryActivity extends AppCompatActivity {
 
     @BindView(R.id.rv_video_gallery)
     RecyclerView rvVideoGallery;
+    @BindView(R.id.swipeToRefresh)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     private BookSelling bookSelling;
     private Map<String, ArrayList<VideoGalleryBO>> videoGalleryMap=new HashMap<>();
@@ -51,6 +54,13 @@ public class VideoGalleryActivity extends AppCompatActivity {
 
         //load video gallery data...
         loadData();
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadData();
+            }
+        });
     }
 
     private void initViews(){
@@ -81,6 +91,7 @@ public class VideoGalleryActivity extends AppCompatActivity {
                 //Log.e(TAG, "onSuccess: " + loginResponse.getResponsecode());
                 //  Log.e(TAG, "onSuccess: " + loginResponse.getMessage());
                 progress.dismiss();
+                swipeRefreshLayout.setRefreshing(false);
                 if (videoGalleryResponse.getResponsecode() == 200) {
                     Toast.makeText(VideoGalleryActivity.this,videoGalleryResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     //Attach data to custom recycler view..

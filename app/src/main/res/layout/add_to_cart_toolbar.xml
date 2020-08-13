@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar
+    style="@style/ToolBarStyle.Event"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cart_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+    android:minHeight="@dimen/abc_action_bar_default_height_material">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="right">
+
+        <TextView
+            android:id="@+id/tv_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12"
+            android:textSize="@dimen/textsize16"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:background="@color/red500"
+            android:layout_margin="@dimen/margin3"
+            android:padding="@dimen/margin1"/>
+
+        <ImageView
+            android:id="@+id/iv_shopping_cart"
+            android:layout_width="@dimen/margin40"
+            android:layout_height="@dimen/margin40"
+            android:background="@drawable/ic_shopping_cart"
+            android:layout_gravity="right"
+            android:layout_margin="@dimen/margin5"
+            android:backgroundTint="@color/white"/>
+    </LinearLayout>
+
+</androidx.appcompat.widget.Toolbar>

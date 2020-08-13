@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.ProgressDialog;
 import android.graphics.Color;
@@ -34,6 +35,8 @@ public class MyOrdersActivity extends AppCompatActivity {
 
     @BindView(R.id.rv_my_orders)
     RecyclerView rvMyOrders;
+    @BindView(R.id.swipeToRefresh)
+    SwipeRefreshLayout swipeRefreshLayout;
     private BookSelling bookSelling;
 
     @Override
@@ -48,6 +51,14 @@ public class MyOrdersActivity extends AppCompatActivity {
 
         //load my orders data and append it to recycler view..
         loadData();
+
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadData();
+            }
+        });
     }
 
     private void initViews(){
@@ -81,6 +92,7 @@ public class MyOrdersActivity extends AppCompatActivity {
                 //Log.e(TAG, "onSuccess: " + loginResponse.getResponsecode());
                 //  Log.e(TAG, "onSuccess: " + loginResponse.getMessage());
                 progress.dismiss();
+                swipeRefreshLayout.setRefreshing(false);
                 if (myOrderResponse.getResponsecode() == 200) {
                     Toast.makeText(MyOrdersActivity.this,myOrderResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     //Attach data to custom recycler view..

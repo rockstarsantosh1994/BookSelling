@@ -3,6 +3,8 @@ package com.example.bookselling;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -17,6 +19,8 @@ public class BooksDataActivity extends AppCompatActivity {
 
     @BindView(R.id.rv_book)
     RecyclerView rvBook;
+    @BindView(R.id.swipeToRefresh)
+    SwipeRefreshLayout swipeRefreshLayout;
     private BookSelling bookSelling;
 
     @Override
@@ -31,6 +35,13 @@ public class BooksDataActivity extends AppCompatActivity {
 
         //load book data and append to recycler view....
         loadData();
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadData();
+            }
+        });
     }
 
     private void initViews(){
@@ -52,6 +63,7 @@ public class BooksDataActivity extends AppCompatActivity {
                 //Log.e(TAG, "onSuccess: " + loginResponse.getResponsecode());
                 //  Log.e(TAG, "onSuccess: " + loginResponse.getMessage());
                 progress.dismiss();
+                swipeRefreshLayout.setRefreshing(false);
                 if (productResponse.getResponsecode() == 200) {
                     if(productResponse.getData().size()>0){
                         BookScreenAdapter bookScreenAdapter=new BookScreenAdapter(BooksDataActivity.this,productResponse.getData());

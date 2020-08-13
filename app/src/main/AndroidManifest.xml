@@ -15,7 +15,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="n">
-        <activity android:name=".AddToCartActivity"></activity>
+        <activity android:name=".PreviewActivity"></activity>
+        <activity android:name=".AddToCartActivity" />
         <activity android:name=".MyOrdersDetailsActivity" />
         <activity android:name=".MyOrdersActivity" />
         <activity android:name=".DashBoardActivity">

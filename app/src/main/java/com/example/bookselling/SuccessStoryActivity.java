@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.ProgressDialog;
 import android.graphics.Color;
@@ -28,6 +29,8 @@ public class SuccessStoryActivity extends AppCompatActivity {
 
     @BindView(R.id.rv_success_story)
     RecyclerView rvSuccessStory;
+    @BindView(R.id.swipeToRefresh)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     private BookSelling bookSelling;
 
@@ -49,6 +52,15 @@ public class SuccessStoryActivity extends AppCompatActivity {
         }else{
             //load success story data and append to recyclerview..
             loadData();
+        }
+
+        if(!getIntent().getStringExtra("type").equals("video_gallery")){
+            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    loadData();
+                }
+            });
         }
     }
 
@@ -80,6 +92,7 @@ public class SuccessStoryActivity extends AppCompatActivity {
                 //Log.e(TAG, "onSuccess: " + loginResponse.getResponsecode());
                 //  Log.e(TAG, "onSuccess: " + loginResponse.getMessage());
                 progress.dismiss();
+                swipeRefreshLayout.setRefreshing(false);
                 if (successStoryResponse.getResponsecode() == 200) {
                     Toast.makeText(SuccessStoryActivity.this,successStoryResponse.getMessage(), Toast.LENGTH_SHORT).show();
                     //Attach data to custom recycler view..
