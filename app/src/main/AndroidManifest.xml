@@ -30,7 +30,7 @@
         </activity>
         <activity android:name=".VideoGalleryActivity" />
         <activity android:name=".SuccessStoryActivity" />
-        <activity android:name=".BookInfoActivity" />
+        <activity android:name=".BookDetailsActivity" />
         <activity android:name=".BooksDataActivity" />
     </application>
 

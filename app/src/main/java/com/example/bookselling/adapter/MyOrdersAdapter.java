@@ -15,7 +15,6 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.bookselling.BookInfoActivity;
 import com.example.bookselling.MyOrdersDetailsActivity;
 import com.example.bookselling.R;
 import com.example.bookselling.model.myorder.MyOrderBO;

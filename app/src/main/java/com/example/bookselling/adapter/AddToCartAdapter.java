@@ -52,7 +52,6 @@ public class AddToCartAdapter extends RecyclerView.Adapter<AddToCartAdapter.AddT
 
     @Override
     public void onBindViewHolder(@NonNull AddToCartViewHolder holder, int position) {
-
         if(productBOArrayList.get(position).getCoverPhoto()!=null){
             Glide.with(context).load(productBOArrayList.get(position).getCoverPhoto()).into(holder.ivProductImage);
         }
@@ -67,26 +66,32 @@ public class AddToCartAdapter extends RecyclerView.Adapter<AddToCartAdapter.AddT
             new AlertDialog.Builder(context)
                     .setTitle(R.string.app_name)
                     .setMessage("Are you sure want to remove product?")
-
                     // Specifying a listener allows you to take an action before dismissing the dialog.
                     // The dialog is automatically dismissed when a dialog button is clicked.
+
                     .setPositiveButton("Yes", (dialog, which) -> {
                         // Continue with delete operation
                         productBOArrayList.remove(position);
-                        Paper.book().write("product_cart",productBOArrayList);
                         notifyItemRemoved(position);
-
-                        int sum = 0;
-                        for(int i = 0; i < productBOArrayList.size(); i++)
-                            sum += productBOArrayList.get(i).getProductTotal();
-                        addToCartActivity.getTotal(sum);
+                        notifyItemRangeChanged(position,productBOArrayList.size());
+                        Paper.book().write("product_cart",productBOArrayList);
+                        try{
+                            int sum = 0;
+                            for(int i = 0; i <productBOArrayList.size(); i++)
+                                sum += productBOArrayList.get(i).getProductTotal();
+                            addToCartActivity.getTotal(sum);
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                       /* Intent intent=new Intent(context,AddToCartActivity.class);
+                        context.startActivity(intent);
+                        ((AppCompatActivity)context).finish();*/
                     })
 
                     // A null listener allows the button to dismiss the dialog and take no further action.
                     .setNegativeButton("No", null)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
-
         });
 
         // OnValueChangeListener

@@ -21,7 +21,7 @@
             android:textSize="@dimen/textsize16"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:background="@color/red500"
+            android:background="@drawable/circle"
             android:layout_margin="@dimen/margin3"
             android:padding="@dimen/margin1"/>
 

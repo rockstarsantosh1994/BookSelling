@@ -25,7 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.paperdb.Paper;
 
-public class BookInfoActivity extends AppCompatActivity implements View.OnClickListener {
+public class BookDetailsActivity extends AppCompatActivity implements View.OnClickListener {
 
     @BindView(R.id.iv_product_img)
     ImageView ivProductImage;
@@ -47,9 +47,9 @@ public class BookInfoActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_book_info);
+        setContentView(R.layout.activity_book_details);
         ButterKnife.bind(this);
-
+        Paper.init(BookDetailsActivity.this);
         //basic intialisation..
         initViews();
 
@@ -68,7 +68,7 @@ public class BookInfoActivity extends AppCompatActivity implements View.OnClickL
         if(getIntent().getParcelableExtra("productbo")!=null){
             productBO=getIntent().getParcelableExtra("productbo");
 
-            Glide.with(BookInfoActivity.this).load(productBO.getCoverPhoto()).error(R.drawable.ic_launcher_background).into(ivProductImage);
+            Glide.with(BookDetailsActivity.this).load(productBO.getCoverPhoto()).error(R.drawable.ic_launcher_background).into(ivProductImage);
 
             tvProductTitle.setText(productBO.getTitle());
             tvProductPrice.setText("₹" +productBO.getPrice() + " /-");
@@ -102,7 +102,7 @@ public class BookInfoActivity extends AppCompatActivity implements View.OnClickL
             case R.id.btn_add_to_cart:
                 if(productBOArrayList.contains(productBO)){
                     Paper.book().write("product_cart",productBOArrayList);
-                    Toast.makeText(BookInfoActivity.this, "Product already added!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BookDetailsActivity.this, "Product already added!", Toast.LENGTH_SHORT).show();
                 }else{
                     productBOArrayList.add(new ProductBO(productBO.getId(),
                             productBO.getTitle(),
@@ -113,9 +113,10 @@ public class BookInfoActivity extends AppCompatActivity implements View.OnClickL
                             productBO.getIsActive(),
                             productBO.getPrice()*productBO.getQuantity()));
                     Paper.book().write("product_cart",productBOArrayList);
-                    Toast.makeText(BookInfoActivity.this, "Added to cart!", Toast.LENGTH_SHORT).show();
-                    tvCount.setText(""+productBOArrayList.size());
+                    Toast.makeText(BookDetailsActivity.this, "Added to cart!", Toast.LENGTH_SHORT).show();
                 }
+                tvCount.setVisibility(View.VISIBLE);
+                tvCount.setText(""+productBOArrayList.size());
                 break;
 
             case R.id.btn_buy_now:
@@ -142,13 +143,13 @@ public class BookInfoActivity extends AppCompatActivity implements View.OnClickL
                 break;
 
             case R.id.iv_shopping_cart:
-                Intent intent=new Intent(BookInfoActivity.this,AddToCartActivity.class);
+                Intent intent=new Intent(BookDetailsActivity.this,AddToCartActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 break;
 
             case R.id.iv_product_img:
-                intent=new Intent(BookInfoActivity.this,PreviewActivity.class);
+                intent=new Intent(BookDetailsActivity.this,PreviewActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.putExtra("image_url",productBO.getCoverPhoto());
                 startActivity(intent);

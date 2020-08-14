@@ -66,6 +66,7 @@ public class AddToCartActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_add_to_cart);
         ButterKnife.bind(this);
         bookSelling = (BookSelling) getApplication();
+        Paper.init(AddToCartActivity.this);
 
         //basic intialisation...
         initViews();
